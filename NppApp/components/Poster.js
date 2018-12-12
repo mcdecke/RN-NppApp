@@ -10,6 +10,8 @@ import {
   LayoutAnimation,
   UIManager
  } from 'react-native'
+ import {Button, Card} from 'react-native-elements'
+ import Footer from './Footer'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 const SCREEN_HEIGHT = Dimensions.get('window').height
@@ -37,7 +39,7 @@ class Poster extends Component {
           }
         }
       })
-      console.log(this.props.data);
+      // console.log(this.props.data);
 
       // {name, shop, state, url, text } = this.props.data
 
@@ -46,24 +48,24 @@ class Poster extends Component {
 
 
     renderPoster(){
-      console.log(this.props.data);
-      let park = this.props.data
-      if(park === undefined){
+      console.log(this.props.posters);
+      let park = this.props.posters
+      // console.log(this.park);
+      if(park == undefined){
         return(
           <Text>Loading!!!</Text>
         )
       } else {
         return (
-        <View style={{
-          flex: 1,
-          alignSelf: 'stretch'
-        }}>
+
+        <Card >
           <Image
           source={{uri: park.url}}
           style={[styles.posterStyle]}
           >
           </Image>
-        </View>
+          <Footer/>
+        </Card>
         )
       }
     }
@@ -71,7 +73,7 @@ class Poster extends Component {
 
   render(){
     return(
-      <View>
+      <View style={styles.cardStyle}>
         {this.renderPoster()}
       </View>
     )
@@ -81,13 +83,29 @@ class Poster extends Component {
 
 const styles={
   posterStyle: {
-    flex: 1,
+    // flex: 1,
     resizeMode: 'stretch',
-    position: 'absolute',
-    width: SCREEN_WIDTH + 32,
-    height: SCREEN_HEIGHT,
+    margin: -32,
     marginLeft: -16,
+    marginBottom: 0,
+    marginTop: -16,
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT - 68,
 
+  },
+  cardStyle: {
+    width: SCREEN_WIDTH + 42,
+    // marginTop: 16,
+    marginLeft: -16,
+    // marginRight: -16,
+    // shadowOpacity: 0,
+    // border: 0,
+    // borderRadius: 0,
+    // shadowRadius: 10,
+    // flex: 1,
+    // elevation: 0
+    // // position: 'absolute',
+    // // resizeMode: 'stretch',
   }
 }
 
