@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Footer from './components/Footer'
-import Poster from './components/Poster'
+import Posters from './components/Posters'
 import axios from 'axios'
 
 export default class App extends React.Component {
@@ -39,8 +39,8 @@ state = {
     // console.log(this.filteredPosters);
     return (
       <View style={styles.container}>
-        <Poster
-          posters={this.filteredPosters[this.state.index]}
+        <Posters
+          posters={this.filteredPosters}
         />
       </View>
     );

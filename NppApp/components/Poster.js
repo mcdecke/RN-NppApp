@@ -20,81 +20,6 @@ const SWIPE_OUT_DURATION = 250
 
 class Poster extends Component {
 
-  static defaultProps = {
-    onSwipeRight: () => {},
-    onSwipeLeft: () => {}
-  }
-
-  constructor(props){
-      super(props)
-
-      const position = new Animated.ValueXY()
-      const panResponder = PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onPanResponderMove: (event, gesture) => {
-          position.setValue({x: gesture.dx})
-        },
-        onPanResponderRelease: (event, gesture) => {
-
-          if(gesture.dx > SWIPE_THRESHOLD){
-            this.forceSwipe('right')
-          }
-          else if(gesture.dx < -SWIPE_THRESHOLD){
-            this.forceSwipe('left')
-          } else {
-            this.resetPosition()
-          }
-        }
-      })
-      this.state = { panResponder, position, index: 0}
-    }
-
-  componentWillReceiveProps(nextProps){
-    if(nextProps.data !== this.props.data) {
-      this.setState({index: 0})
-    }
-  }
-
-  componentWillUpdate(){
-    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
-    LayoutAnimation.spring()
-  }
-
-  resetPosition(){
-    Animated.spring(
-      this.state.position, {toValue: {x: 0, y: 0}}
-    ).start()
-  }
-
-  forceSwipe(direction){
-    const x = direction === 'right' ? SCREEN_WIDTH : -SCREEN_WIDTH
-    Animated.timing(this.state.position, {
-      toValue: { x: 1.2*x, y: 0},
-      duration: SWIPE_OUT_DURATION
-    }).start(() => this.onSwipeComplete(direction))
-  }
-
-  onSwipeComplete(direction) {
-    const { onSwipeLeft, onSwipeRight, data } = this.props
-    const item = data[this.state.index]
-    direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item)
-    this.state.position.setValue({ x: 0, y: 0})
-    this.setState({index: this.state.index + 1})
-  }
-
-  getCardStyle() {
-    const { position } = this.state
-    const rotate = position.x.interpolate({
-      inputRange: [-SCREEN_WIDTH * 2, 0, SCREEN_WIDTH * 2],
-      outputRange: ['-0deg', '0deg', '0deg']
-    })
-
-    return {
-      ...position.getLayout(),
-      transform: [{ rotate }]
-    }
-  }
-
     renderPoster(){
       // console.log(this.props.posters);
       let park = this.props.posters
@@ -106,10 +31,10 @@ class Poster extends Component {
       } else {
         return (
         <Animated.View
-          style={[this.getCardStyle(),
+          style={[
             styles.cardStyle,
             {elevation: 1}]}
-          {...this.state.panResponder.panHandlers}
+          // {...this.state.panResponder.panHandlers}
         >
           <Card >
             <Image
@@ -117,7 +42,6 @@ class Poster extends Component {
             style={[styles.posterStyle]}
             >
             </Image>
-            <Footer/>
           </Card>
         </Animated.View>
         )
@@ -139,10 +63,6 @@ const styles={
   posterStyle: {
     // flex: 1,
     resizeMode: 'stretch',
-    margin: -32,
-    marginLeft: -16,
-    marginBottom: 0,
-    marginTop: -16,
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT - 68,
 
