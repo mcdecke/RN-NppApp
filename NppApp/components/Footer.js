@@ -6,7 +6,8 @@ import {
   Dimensions,
   Modal,
   TouchableHighlight,
-  Alert
+  Alert,
+  Animated
 } from 'react-native';
 import {Icon, Button, Card} from 'react-native-elements'
 
@@ -19,55 +20,78 @@ class Footer extends Component {
     modalVisible: false
   }
 
+
   setModalVisible(visible) {
+    console.log(visible);
     this.setState({modalVisible: visible});
   }
 
-  render(){
-    return (
-    <View style={styles.footerStyle}>
-    
-    <Modal
-        animationType="slide"
-        transparent={false}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-        }}>
-        <View style={{marginTop: 22}}>
-          <View>
-            <Text>Hello World!</Text>
+  renderFooter(){
+    const { posters, index } = this.props
 
-            <TouchableHighlight
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
-              }}>
-              <Text>Hide Modal</Text>
-            </TouchableHighlight>
-          </View>
+    let park = this.props.posters[this.props.index]
+        console.log(park);
+
+    if(posters[index] === undefined){
+      return(
+        <Text>Loading!!!</Text>
+      )
+    } else {
+      return (
+      <View style={styles.footerStyle}>
+        <View>
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              this.setModalVisible(!this.state.modalVisible);
+            }}
+            >
+            <View style={{marginTop: 32}}>
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setModalVisible(false);
+                  }}>
+
+                  <Button onPress={() => {
+                    this.setModalVisible(false);
+                  }}>Hide Modal</Button>
+                </TouchableHighlight>
+                <Text>{posters[index].text}</Text>
+            </View>
+          </Modal>
         </View>
-      </Modal>
+        <Icon
+          raised
+          style={styles.iconStyle}
+          name='search'
+          type='font-awesome'
+          color='#f50'
+          onPress={() => console.log('hello')}
+        />
+        <Card style={styles.counterStyle}>
+          <Text>{index + 1}/{posters.length}</Text>
+        </Card>
+        <Icon
+          raised
+          style={styles.iconStyle}
+          name='info-circle'
+          type='font-awesome'
+          color='#f50'
+          onPress={() => this.setModalVisible(true)}
+        />
+      </View>
+      )
+    }
+  }
 
-      <Icon
-        raised
-        style={styles.iconStyle}
-        name='search'
-        type='font-awesome'
-        color='#f50'
-        onPress={() => console.log('hello')}
-      />
-      <Card style={styles.counterStyle}>
-        <Text>{this.props.index + 1}/{this.props.posters.length}</Text>
-      </Card>
-      <Icon
-        raised
-        style={styles.iconStyle}
-        name='info-circle'
-        type='font-awesome'
-        color='#f50'
-        onPress={() => this.setModalVisible(true)}
-      />
-    </View>
+
+  render(){
+    return(
+      <Animated.View>
+        {this.renderFooter()}
+      </Animated.View>
     )
   }
 }

@@ -107,8 +107,8 @@ class Posters extends Component {
     }
 
   render(){
-    console.log(this.props);
-    console.log(this.state);
+    // console.log(this.props);
+    // console.log(this.state);
     return (
     <View>
       <Animated.View style={[this.getCardStyle(), styles.posterStyle, {elevation: 1}]}
