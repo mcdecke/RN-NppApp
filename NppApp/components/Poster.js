@@ -64,7 +64,7 @@ const styles={
     // flex: 1,
     resizeMode: 'stretch',
     width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT - 68,
+    height: SCREEN_HEIGHT - 88,
 
   },
   cardStyle: {

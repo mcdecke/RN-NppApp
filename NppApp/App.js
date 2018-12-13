@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Animated, LayoutAnimation, UIManager } from 'react-native';
 import Footer from './components/Footer'
 import Posters from './components/Posters'
 import axios from 'axios'
@@ -10,6 +10,11 @@ filteredPosters = []
 
 state = {
   index: 0
+}
+
+componentWillUpdate(){
+  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
+  LayoutAnimation.spring()
 }
 
   componentWillMount(){
@@ -38,11 +43,11 @@ state = {
   render() {
     // console.log(this.filteredPosters);
     return (
-      <View style={styles.container}>
+      <Animated.View style={styles.container}>
         <Posters
           posters={this.filteredPosters}
         />
-      </View>
+      </Animated.View>
     );
   }
 }

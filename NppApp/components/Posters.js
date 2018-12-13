@@ -52,7 +52,6 @@ class Posters extends Component {
       }
 
 
-
     componentWillUpdate(){
       UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
       LayoutAnimation.spring()
@@ -76,8 +75,22 @@ class Posters extends Component {
       const { onSwipeLeft, onSwipeRight, posters } = this.props
       const item = posters[this.state.index]
       direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item)
+      console.log(direction == 'right');
       this.state.position.setValue({ x: 0, y: 0})
-      this.setState({index: this.state.index + 1})
+      if(direction == 'left'){
+        if(this.state.index + 1 >= this.props.posters.length) {
+          this.setState({index: 0})
+        } else {
+        this.setState({index: this.state.index + 1})
+        }
+      }
+      else if (direction == 'right'){
+        if((this.state.index - 1) < 0) {
+          this.setState({index: this.props.posters.length - 1})
+        } else {
+        this.setState({index: this.state.index - 1})
+        }
+      }
     }
 
     getCardStyle() {
@@ -93,28 +106,21 @@ class Posters extends Component {
       }
     }
 
-
-  // state = {
-  //   posters: [],
-  //   allPosters: [],
-  //   index: 0
-  // }
-
-  // loadPoster(){
-  //   console.log(this.props.posters);
-  // }
-
   render(){
     console.log(this.props);
     console.log(this.state);
     return (
-      <Animated.View style={[this.getCardStyle(), styles.posterStyle]}
+    <View>
+      <Animated.View style={[this.getCardStyle(), styles.posterStyle, {elevation: 1}]}
         {...this.state.panResponder.panHandlers}
       >
         <Poster
           posters={this.props.posters[this.state.index]}
         />
+        <Footer/>
       </Animated.View>
+
+      </View>
     )
   }
 }

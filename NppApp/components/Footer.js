@@ -20,7 +20,8 @@ const styles = {
   footerStyle: {
     // flex: 1,
     margin: 32,
-    marginTop: 0,
+    marginTop: -32,
+    marginLeft: 0,
     marginBottom: 0,
   },
   cardStyle: {
