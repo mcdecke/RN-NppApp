@@ -117,7 +117,9 @@ class Posters extends Component {
         <Poster
           posters={this.props.posters[this.state.index]}
         />
-        <Footer/>
+        <Footer
+        index={this.state.index}
+        posters={this.props.posters}/>
       </Animated.View>
 
       </View>
