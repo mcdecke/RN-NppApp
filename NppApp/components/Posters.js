@@ -30,6 +30,8 @@ class Posters extends Component {
     constructor(props){
         super(props)
 
+        this.handler = this.handler.bind(this)
+
         const position = new Animated.ValueXY()
         const panResponder = PanResponder.create({
           onStartShouldSetPanResponder: () => true,
@@ -48,17 +50,23 @@ class Posters extends Component {
             }
           }
         })
-        this.state = { panResponder, position, index: 0}
-      }
+        this.state = { panResponder, position, index: 0, filteredPosters: this.props.posters}
+    }
 
+    handler(posters){
+      this.setState({
+        filteredPosters: posters
+      })
+      console.log(posters[0]);
+    }
 
     componentWillUpdate(){
       UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
-      LayoutAnimation.spring()
+      LayoutAnimation.easeInEaseOut()
     }
 
     resetPosition(){
-      Animated.spring(
+      Animated.decay(
         this.state.position, {toValue: {x: 0, y: 0}}
       ).start()
     }
@@ -78,7 +86,7 @@ class Posters extends Component {
       console.log(direction == 'right');
       this.state.position.setValue({ x: 0, y: 0})
       if(direction == 'left'){
-        if(this.state.index + 1 >= this.props.posters.length) {
+        if(this.state.index + 1 >= this.state.filteredPosters.length) {
           this.setState({index: 0})
         } else {
         this.setState({index: this.state.index + 1})
@@ -86,7 +94,7 @@ class Posters extends Component {
       }
       else if (direction == 'right'){
         if((this.state.index - 1) < 0) {
-          this.setState({index: this.props.posters.length - 1})
+          this.setState({index: this.state.filteredPosters.length - 1})
         } else {
         this.setState({index: this.state.index - 1})
         }
@@ -115,11 +123,12 @@ class Posters extends Component {
         {...this.state.panResponder.panHandlers}
       >
         <Poster
-          posters={this.props.posters[this.state.index]}
+          posters={this.state.filteredPosters[this.state.index]}
         />
         <Footer
+        action={this.handler}
         index={this.state.index}
-        posters={this.props.posters}/>
+        posters={this.state.filteredPosters}/>
       </Animated.View>
 
       </View>
