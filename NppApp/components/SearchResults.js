@@ -11,7 +11,7 @@ import {
   LayoutAnimation,
   UIManager
 } from 'react-native'
-import {Button, Card} from 'react-native-elements'
+import {Button, Card, Divider} from 'react-native-elements'
 
 
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -48,7 +48,7 @@ if(posters[0].name !== undefined){
         if(!!stateAns.match(search) || !!nameAns.match(search)){
 
         filteredPosters.push({
-            name: posters[i].name,
+            name: posters[i].name.trim(),
             url: posters[i].url,
             text: posters[i].text,
             shop: posters[i].shop,
@@ -61,8 +61,13 @@ if(posters[0].name !== undefined){
 
     return filteredPosters.map(poster =>
       <View
+      style={[styles.cardStyle]}
       key={poster.name}>
         <Text>{poster.name}</Text>
+        <Divider style={{
+          justifyContent: 'center',
+          margin: 6
+        }}/>
       </View>
      )
   }

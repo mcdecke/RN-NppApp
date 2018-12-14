@@ -57,7 +57,6 @@ class Posters extends Component {
       this.setState({
         filteredPosters: posters
       })
-      console.log(posters[0]);
     }
 
     componentWillUpdate(){

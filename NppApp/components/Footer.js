@@ -10,7 +10,7 @@ import {
   Animated,
   TextInput
 } from 'react-native';
-import {Icon, Button, Card} from 'react-native-elements'
+import {Icon, Button, Card, Divider} from 'react-native-elements'
 import SearchResults from './SearchResults'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
@@ -90,35 +90,42 @@ class Footer extends Component {
             }}
             >
             <View style={{marginTop: 32}}>
-                <TouchableHighlight
-                  onPress={() => {
-                    this.setSearchVisible(false);
-                  }}>
 
-                  <Button
-                    style={styles.buttonStyle}
-                    onPress={() => {
-                      this.props.action(this.onSearch())
-                      this.setSearchVisible(false);
-                    }}>
-                    <Text>Hide search</Text>
-                  </Button>
 
-                </TouchableHighlight>
-
-                <View>
-                  <Text>Search</Text>
+                <View style={[styles.cardStyle]}>
+                  <Text style={[styles.cardStyle]}>Search</Text>
                   <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                    style={{height: 40, borderColor: 'gray', borderWidth: 1,
+                    borderRadius: 3,
+                    marginLeft: 4,
+                    padding: 4
+                  }}
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
                   />
                 </View>
+
                 <SearchResults
                   style={{flex: 1}}
                   search={this.state.text}
                   posters={this.props.posters}
                 />
+
+                <TouchableHighlight
+                  onPress={() => {
+                    this.setSearchVisible(false);
+                  }}>
+
+                  <View
+                    onPress={() => {
+                      this.props.action(this.onSearch())
+                      this.setSearchVisible(false);
+                    }}>
+                    <Text style={styles.hideStyle}>Hide search</Text>
+                  </View>
+
+                </TouchableHighlight>
+
             </View>
           </Modal>
 
@@ -131,19 +138,25 @@ class Footer extends Component {
             }}
             >
             <View style={{marginTop: 32}}>
-                <TouchableHighlight
+
+              <Card style={styles.cardStyle}>
+                <Text style={{textAlign: 'center'}}>{posters[index].name}</Text>
+                <Divider style={styles.cardStyle}/>
+                <Text>{posters[index].text}</Text>
+              </Card>
+              <TouchableHighlight
                   onPress={() => {
                     this.setInfoVisible(false);
                   }}>
 
-                  <Button onPress={() => {
+                  <View style={styles.cardStyle}
+                    onPress={() => {
+                      this.setInfoVisible(false);
+                    }}>
+                    <Text style={styles.hideStyle}>Hide info</Text>
+                  </View>
 
-                    this.setInfoVisible(false);
-                  }}><Text>Hide info</Text></Button>
-
-                </TouchableHighlight>
-                <Text>{posters[index].name}</Text>
-                <Text>{posters[index].text}</Text>
+              </TouchableHighlight>
             </View>
           </Modal>
 
@@ -201,8 +214,21 @@ const styles = {
     margin: 36,
     width: 400,
   },
-  buttonStyle: {
-    borderRadius: 2,
+  cardStyle: {
+    justifyContent: 'center',
+    margin: 6
+  },
+  hideStyle: {
+    // width: SCREEN_WIDTH/5,
+    margin: 6,
+    marginLeft: SCREEN_WIDTH/3,
+    marginRight: SCREEN_WIDTH/3,
+    borderWidth: 1,
+    borderColor: 'tomato',
+    borderRadius: 3,
+    justifyContent: 'center',
+    textAlign: 'center',
+    color: 'tomato'
   }
 }
 
