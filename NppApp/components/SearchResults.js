@@ -34,8 +34,8 @@ onSearch() {
   const search = this.props.search
   // this.state.filteredPosters = []
 
-  const posters = this.props.posters
-  console.log(search);
+  const posters = this.props.allPosters
+  console.log(posters);
 
 
 if(posters[0].name !== undefined){
@@ -54,10 +54,11 @@ if(posters[0].name !== undefined){
             shop: posters[i].shop,
             state: posters[i].state
           })
-          console.log(filteredPosters);
+          // console.log(filteredPosters);
         }
     }
-  console.log(filteredPosters)
+  // console.log(filteredPosters)
+
 
     return filteredPosters.map(poster =>
       <View
@@ -90,9 +91,7 @@ if(posters[0].name !== undefined){
 
 const styles={
   cardStyle: {
-    // flex: 1,
-    // width: SCREEN_WIDTH + 42,
-    marginLeft: 4,
+    marginLeft: 8,
     alignItems: 'flex-start',
     justifyContent: 'center',
     alignText: 'center',

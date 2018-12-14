@@ -54,6 +54,9 @@ class Posters extends Component {
     }
 
     handler(posters){
+      console.log(posters);
+
+
       this.setState({
         filteredPosters: posters
       })
@@ -114,8 +117,6 @@ class Posters extends Component {
     }
 
   render(){
-    // console.log(this.props);
-    // console.log(this.state);
     return (
     <View>
       <Animated.View style={[this.getCardStyle(), styles.posterStyle, {elevation: 1}]}
@@ -127,7 +128,9 @@ class Posters extends Component {
         <Footer
         action={this.handler}
         index={this.state.index}
-        posters={this.state.filteredPosters}/>
+        posters={this.state.filteredPosters}
+        allPosters={this.props.posters}
+        />
       </Animated.View>
 
       </View>

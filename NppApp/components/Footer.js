@@ -30,7 +30,8 @@ class Footer extends Component {
     // this.state.filteredPosters = []
 
     const posters = this.props.posters
-    console.log(search);
+    // console.log(this.props.posters);
+
 
 
   if(posters[0].name !== undefined){
@@ -48,10 +49,9 @@ class Footer extends Component {
               shop: posters[i].shop,
               state: posters[i].state
             })
-            console.log(filteredPosters);
           }
       }
-    console.log(filteredPosters)
+    // console.log(filteredPosters)
     return filteredPosters
     }
   }
@@ -70,7 +70,7 @@ class Footer extends Component {
     const { posters, index } = this.props
 
     let park = this.props.posters[this.props.index]
-        console.log(this.props);
+
 
     if(posters[index] === undefined){
       return(
@@ -93,7 +93,7 @@ class Footer extends Component {
 
 
                 <View style={[styles.cardStyle]}>
-                  <Text style={[styles.cardStyle]}>Search</Text>
+                  <Text style={[styles.cardStyle]}>Search by State or Park: </Text>
                   <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1,
                     borderRadius: 3,
@@ -103,29 +103,30 @@ class Footer extends Component {
                     onChangeText={(text) => this.setState({text})}
                     value={this.state.text}
                   />
+
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.props.action(this.onSearch())
+                      this.setSearchVisible(false);
+                    }}>
+
+                    <View
+                      onPress={() => {
+                        this.setSearchVisible(false);
+                      }}>
+                      <Text style={styles.hideStyle}>Filter</Text>
+                    </View>
+
+                  </TouchableHighlight>
+
                 </View>
 
                 <SearchResults
                   style={{flex: 1}}
                   search={this.state.text}
                   posters={this.props.posters}
+                  allPosters={this.props.allPosters}
                 />
-
-                <TouchableHighlight
-                  onPress={() => {
-                    this.setSearchVisible(false);
-                  }}>
-
-                  <View
-                    onPress={() => {
-                      this.props.action(this.onSearch())
-                      this.setSearchVisible(false);
-                    }}>
-                    <Text style={styles.hideStyle}>Hide search</Text>
-                  </View>
-
-                </TouchableHighlight>
-
             </View>
           </Modal>
 
@@ -141,10 +142,11 @@ class Footer extends Component {
 
               <Card style={styles.cardStyle}>
                 <Text style={{textAlign: 'center'}}>{posters[index].name}</Text>
-                <Divider style={styles.cardStyle}/>
+                <Divider />
                 <Text>{posters[index].text}</Text>
               </Card>
               <TouchableHighlight
+
                   onPress={() => {
                     this.setInfoVisible(false);
                   }}>
@@ -166,7 +168,10 @@ class Footer extends Component {
           name='search'
           type='font-awesome'
           color='#f50'
-          onPress={() => this.setSearchVisible(true)}
+          onPress={() => {
+            this.setSearchVisible(true)
+
+          }}
         />
         <Card style={styles.counterStyle}>
           <Text>{index + 1}/{posters.length}</Text>
@@ -216,7 +221,8 @@ const styles = {
   },
   cardStyle: {
     justifyContent: 'center',
-    margin: 6
+    margin: 6,
+    textAlign: 'center',
   },
   hideStyle: {
     // width: SCREEN_WIDTH/5,
