@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Animated, LayoutAnimation, UIManager } from 'react-native';
 import Footer from './components/Footer'
+
+import Poster from './components/Poster'
 import Posters from './components/Posters'
 import axios from 'axios'
 
@@ -44,8 +46,8 @@ componentWillUpdate(){
     // console.log(this.filteredPosters);
     return (
       <Animated.View style={styles.container}>
-        <Posters
-          posters={this.filteredPosters}
+        <Poster
+          poster={this.filteredPosters[0]}
         />
       </Animated.View>
     );
