@@ -26,64 +26,65 @@ state = {
   search: ''
 }
 
-renderPosters
 
-onSearch() {
-
-  let filteredPosters = []
-  const search = this.props.search
-  // this.state.filteredPosters = []
-
-  const posters = this.props.allPosters
-  console.log(posters);
-
-
-if(posters[0].name !== undefined){
-    for (let i = 0; i < posters.length; i++) {
-
-
-      let stateAns = posters[i].state || ''
-      let nameAns = posters[i].name || ''
-
-        if(!!stateAns.match(search) || !!nameAns.match(search)){
-
-        filteredPosters.push({
-            name: posters[i].name.trim(),
-            url: posters[i].url,
-            text: posters[i].text,
-            shop: posters[i].shop,
-            state: posters[i].state
-          })
-          // console.log(filteredPosters);
-        }
-    }
-  // console.log(filteredPosters)
-
-
-    return filteredPosters.map(poster =>
-      <View
-      style={[styles.cardStyle]}
-      key={poster.name}>
-        <Text>{poster.name}</Text>
-        <Divider style={{
-          justifyContent: 'center',
-          margin: 6
-        }}/>
-      </View>
-     )
-  }
-  else {
-    return (
-        <Text>Loading!!!</Text>
-    )
-  }
-}
+// onSearch() {
+//
+//   let filteredPosters = []
+//   const search = this.props.search
+//   // this.state.filteredPosters = []
+//
+//   const posters = this.props.allPosters
+//   // console.log(posters);
+//
+//
+// if(posters[0].name !== undefined){
+//     for (let i = 0; i < posters.length; i++) {
+//
+//
+//       let stateAns = posters[i].state || ''
+//       let nameAns = posters[i].name || ''
+//
+//         if(!!stateAns.match(search) || !!nameAns.match(search)){
+//
+//         filteredPosters.push({
+//             name: posters[i].name.trim(),
+//             url: posters[i].url,
+//             text: posters[i].text,
+//             shop: posters[i].shop,
+//             state: posters[i].state
+//           })
+//           // console.log(filteredPosters);
+//         }
+//     }
+//   // console.log(filteredPosters)
+//
+//
+//   if(this.props.poster !== null) {
+//     poster = this.props.poster
+//       console.log(poster);
+//
+//      }
+//   }
+//   else {
+//     return (
+//         <Text>Loading!!!</Text>
+//     )
+//   }
+// }
 
 
   render(){
     return(
       <Animated.View style={[styles.cardStyle]}>
-        <ScrollView>{this.onSearch()}</ScrollView>
+          <View
+          style={[styles.cardStyle]}
+          key={this.props.poster.name}>
+            <Text>{this.props.poster.name}</Text>
+            <Divider style={{
+              justifyContent: 'center',
+              margin: 6
+            }}/>
+          </View>
       </Animated.View>
     )
   }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Animated, LayoutAnimation, UIManager } from 'react-native';
 import Footer from './components/Footer'
-
 import Poster from './components/Poster'
 import Posters from './components/Posters'
 import axios from 'axios'
@@ -37,17 +36,20 @@ componentWillUpdate(){
             }
           }
         }
-        this.setState({posters: this.filteredPosters})
-        // console.log(this.filteredPosters);
+        this.setState({
+            posters: this.filteredPosters,
+            poster: this.filteredPosters[0]
+          })
+        // console.log(this.filteredPosters[0]);
     })
   }
 
   render() {
-    // console.log(this.filteredPosters);
     return (
       <Animated.View style={styles.container}>
         <Poster
-          poster={this.filteredPosters[0]}
+          posters={this.state.posters}
+          poster={this.state.poster}
         />
       </Animated.View>
     );

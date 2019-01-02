@@ -13,6 +13,8 @@ import {
  import {Button, Card} from 'react-native-elements'
  import Footer from './Footer'
 
+ import SearchResults from './SearchResults'
+
 const SCREEN_WIDTH = Dimensions.get('window').width
 const SCREEN_HEIGHT = Dimensions.get('window').height
 const SWIPE_THRESHOLD = .25 * SCREEN_WIDTH
@@ -25,9 +27,9 @@ class Poster extends Component {
     onSwipeLeft: () => {}
   }
 
-  constructor(props){
-      super(props)
-
+  constructor(props, context){
+      super(props, context)
+      // console.log(props);
       const position = new Animated.ValueXY()
       const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -46,12 +48,15 @@ class Poster extends Component {
           }
         }
       })
+
+      this.renderPoster = this.renderPoster.bind(this)
+
       this.state = { panResponder, position, index: 0}
     }
 
   componentWillReceiveProps(nextProps){
-      console.log(this.props);
-    if(nextProps.data !== this.props.data) {
+
+    if(nextProps.poster !== this.props.poster) {
       this.setState({index: 0})
     }
   }
@@ -78,13 +83,14 @@ class Poster extends Component {
   onSwipeComplete(direction) {
     const { onSwipeLeft, onSwipeRight, poster } = this.props
     const item = poster[this.state.index]
-    console.log(this.props.poster);
+    // console.log(this.props);
     direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item)
     this.state.position.setValue({ x: 0, y: 0})
     this.setState({index: this.state.index + 1})
   }
 
   getCardStyle() {
+    // console.log('style');
     const { position } = this.state
     const rotate = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH * 2, 0, SCREEN_WIDTH * 2],
@@ -98,15 +104,19 @@ class Poster extends Component {
   }
 
     renderPoster(){
-      // console.log(this.props.posters);
-      let park = this.props.poster
-      // console.log(this.park);
+
+      let park = this.props.posters
+
       if(park == undefined){
         return(
           <Text>Loading!!!</Text>
         )
       } else {
+
+          // console.log(this.props.posters);
+
         return (
+
         <Animated.View
           style={[this.getCardStyle(),
             styles.cardStyle,
@@ -115,11 +125,14 @@ class Poster extends Component {
         >
           <Card >
             <Image
-            source={{uri: park.url}}
+            source={{uri: park[this.state.index].url}}
             style={[styles.posterStyle]}
             >
             </Image>
-            <Footer/>
+            <Footer
+              posters={this.props.posters}
+              index={this.state.index}
+            />
           </Card>
         </Animated.View>
         )
@@ -142,7 +155,7 @@ const styles={
     // flex: 1,
     resizeMode: 'stretch',
     margin: -32,
-    marginLeft: -16,
+    // marginLeft: -32,
     marginBottom: 0,
     marginTop: -16,
     width: SCREEN_WIDTH,
@@ -151,7 +164,7 @@ const styles={
   },
   cardStyle: {
     width: SCREEN_WIDTH + 42,
-    marginLeft: -16,
+    // marginLeft: -32,
   }
 }
 
