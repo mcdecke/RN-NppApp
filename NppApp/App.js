@@ -22,7 +22,6 @@ componentWillUpdate(){
     axios.get('https://national-park-posters-app.firebaseio.com/data.json')
     .then(response => {
       const posters = response.data
-      // console.log(posters);
       for (let key in posters) {
           for (let i = 0; i < posters[key].length; i++) {
             if (posters[key][i] !== null) {
@@ -40,7 +39,6 @@ componentWillUpdate(){
             posters: this.filteredPosters,
             poster: this.filteredPosters[0]
           })
-        // console.log(this.filteredPosters[0]);
     })
   }
 

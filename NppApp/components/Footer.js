@@ -20,64 +20,60 @@ class Footer extends Component {
 
   state = {
     infoVisible: false,
-    searchVisible: false,
+    searchVisible: !this.props.hider,
     text: ''
   }
 
   onSearch() {
 
+    // console.log(this.props.posters);
 
-        console.log(this.props.posters);
-  //
-  //   let filteredPosters = []
-  //   const search = this.state.text
-  //   // this.state.filteredPosters = []
-  //
-  //   console.log(this.props.posters);
-  //
-  //   const posters = this.props.posters
-  //   console.log(posters[0]);
-  //
-  //
-  // if(posters[0].name !== undefined){
-  //     for (let i = 0; i < posters.length; i++) {
-  //
-  //       let stateAns = posters[i].state || ''
-  //       let nameAns = posters[i].name || ''
-  //
-  //         if(!!stateAns.match(search) || !!nameAns.match(search)){
-  //
-  //         filteredPosters.push({
-  //             name: posters[i].name,
-  //             url: posters[i].url,
-  //             text: posters[i].text,
-  //             shop: posters[i].shop,
-  //             state: posters[i].state
-  //           })
-  //         }
-  //     }
-  //   // console.log(filteredPosters)
-  //   return filteredPosters
-  //   }
+    let filteredPosters = []
+    const search = this.state.text
+    // this.state.filteredPosters = []
+
+    // console.log(this.props.posters);
+
+    const posters = this.props.posters
+    // console.log(posters[0]);
+
+
+  if(posters[0].name !== undefined){
+    // console.log(search);
+      for (let i = 0; i < posters.length; i++) {
+
+        let stateAns = posters[i].state || ''
+        let nameAns = posters[i].name || ''
+
+          if(!!stateAns.match(search) || !!nameAns.match(search)){
+
+          filteredPosters.push({
+              name: posters[i].name,
+              url: posters[i].url,
+              text: posters[i].text,
+              shop: posters[i].shop,
+              state: posters[i].state
+            })
+          }
+      }
+    // console.log(filteredPosters)
+    return filteredPosters
+    }
   }
-
 
   setInfoVisible(visible) {
-
     this.setState({infoVisible: visible});
   }
-
   setSearchVisible(visible) {
     this.setState({searchVisible: visible});
   }
 
   renderFooter(){
-    const { posters, index } = this.props
-
-    console.log(index);
-    console.log(posters);
-
+    const { posters, index, hider } = this.props
     let park = this.props.posters[this.props.index]
+
+    console.log('hider');
+    console.log(hider);
 
     if(posters[index] === undefined){
       return(
@@ -97,10 +93,8 @@ class Footer extends Component {
             }}
             >
             <View style={{marginTop: 32}}>
-
-
                 <View style={[styles.cardStyle]}>
-                  <Text style={[styles.cardStyle]}>Search by State or Park: </Text>
+                  <Text>Search by State or Park: </Text>
                   <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1,
                     borderRadius: 3,
@@ -115,26 +109,28 @@ class Footer extends Component {
                     onPress={() => {
                       this.props.action(this.onSearch())
                       this.setSearchVisible(false);
-                    }}>
-
+                    }}
+                    >
                     <View
                       onPress={() => {
                         this.setSearchVisible(false);
                         this.props.action(this.onSearch())
-                      }}>
+                      }}
+                      >
                       <Text style={styles.hideStyle}>View Now</Text>
                     </View>
 
                   </TouchableHighlight>
-
                 </View>
-
-                <SearchResults
-                  style={{flex: 1}}
-                  search={this.state.text}
-                  posters={this.props.posters}
-                  allPosters={this.props.allPosters}
-                />
+                <TouchableHighlight>
+                  <SearchResults
+                    hider={this.props.hider}
+                    action={this.props.action}
+                    style={{flex: 1}}
+                    search={this.state.text}
+                    posters={this.props.posters}
+                  />
+                </TouchableHighlight>
             </View>
           </Modal>
 

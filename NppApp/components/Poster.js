@@ -30,6 +30,9 @@ class Poster extends Component {
   constructor(props, context){
       super(props, context)
       // console.log(props);
+
+      this.handler = this.handler.bind(this)
+
       const position = new Animated.ValueXY()
       const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -51,7 +54,7 @@ class Poster extends Component {
 
       this.renderPoster = this.renderPoster.bind(this)
 
-      this.state = { panResponder, position, index: 0}
+      this.state = { panResponder, position, index: 0, hidden: true}
     }
 
   componentWillReceiveProps(nextProps){
@@ -59,6 +62,17 @@ class Poster extends Component {
     if(nextProps.poster !== this.props.poster) {
       this.setState({index: 0})
     }
+  }
+
+  handler(i){
+    for (let j = 0; j < this.props.posters.length; j++) {
+      if (i == this.props.posters[j].name) {
+        this.setState({
+          index: j
+        })
+      }
+    }
+    this.setState({ hidden: true })
   }
 
   componentWillUpdate(){
@@ -87,6 +101,7 @@ class Poster extends Component {
     direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item)
     this.state.position.setValue({ x: 0, y: 0})
     this.setState({index: this.state.index + 1})
+    console.log(this.state.index);
   }
 
   getCardStyle() {
@@ -130,6 +145,8 @@ class Poster extends Component {
             >
             </Image>
             <Footer
+              hider={this.state.hidden}
+              action={this.handler}
               posters={this.props.posters}
               index={this.state.index}
             />
