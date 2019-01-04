@@ -29,8 +29,6 @@ class Poster extends Component {
 
   constructor(props, context){
       super(props, context)
-      // console.log(props);
-
       this.handler = this.handler.bind(this)
 
       const position = new Animated.ValueXY()
@@ -67,6 +65,7 @@ class Poster extends Component {
   handler(i){
     for (let j = 0; j < this.props.posters.length; j++) {
       if (i == this.props.posters[j].name) {
+        console.log(i);
         this.setState({
           index: j
         })
@@ -97,15 +96,26 @@ class Poster extends Component {
   onSwipeComplete(direction) {
     const { onSwipeLeft, onSwipeRight, poster } = this.props
     const item = poster[this.state.index]
-    // console.log(this.props);
     direction === 'right' ? onSwipeRight(item) : onSwipeLeft(item)
+    console.log(this.props.posters.length);
     this.state.position.setValue({ x: 0, y: 0})
-    this.setState({index: this.state.index + 1})
-    console.log(this.state.index);
+    if(direction == 'left'){
+      if (this.state.index >= this.props.posters.length - 1) {
+        this.setState({index: 0})
+      } else {
+        this.setState({index: this.state.index + 1})
+      }
+    }
+    else{
+      if (this.state.index <= 0) {
+        this.setState({index: this.props.posters.length - 1})
+      } else {
+      this.setState({index: this.state.index - 1})
+    }
   }
+}
 
   getCardStyle() {
-    // console.log('style');
     const { position } = this.state
     const rotate = position.x.interpolate({
       inputRange: [-SCREEN_WIDTH * 2, 0, SCREEN_WIDTH * 2],
@@ -127,8 +137,6 @@ class Poster extends Component {
           <Text>Loading!!!</Text>
         )
       } else {
-
-          // console.log(this.props.posters);
 
         return (
 
