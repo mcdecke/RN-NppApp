@@ -11,8 +11,9 @@ import {
   LayoutAnimation,
   UIManager
 } from 'react-native'
-import {Button, Card, Divider} from 'react-native-elements'
+import {Card, Divider} from 'react-native-elements'
 import Footer from './Footer'
+import {Button} from './common'
 
 
 const SCREEN_HEIGHT = Dimensions.get('window').height
@@ -27,7 +28,6 @@ state = {
   search: ''
 }
 
-renderPosters
 
 onSearch() {
 
@@ -55,28 +55,26 @@ if(posters[0].name !== undefined){
             shop: posters[i].shop,
             state: posters[i].state
           })
-          // console.log(filteredPosters);
         }
     }
-  // console.log(filteredPosters)
-
 
     return filteredPosters.map(poster =>
       <View
 
       style={[styles.cardStyle]}
       key={poster.name}>
-        <Text
+        <Button
 
         onPress={() => {
           console.log(poster.name);
           //push filtered list
           // this.props.action(this.onSearch())
           //filter selected poster
+          this.props.hider(false)
           this.props.action(poster.name)
         }}
 
-        >{poster.name}</Text>
+        >{poster.name}</Button>
         <Divider style={{
           justifyContent: 'center',
           margin: 6

@@ -18,28 +18,36 @@ const SCREEN_WIDTH = SCREEN_HEIGHT * (620/906)
 
 class Footer extends Component {
 
-  state = {
-    infoVisible: false,
-    searchVisible: !this.props.hider,
-    text: ''
+
+
+  constructor(props, context){
+      super(props, context)
+      // console.log(props);
+
+      this.hider = this.hider.bind(this)
+
+      this.state = {
+        infoVisible: false,
+        searchVisible: false,
+        text: ''
+      }
+
+    }
+
+
+  hider(visible){
+    console.log(visible);
+    this.setState({searchVisible: visible});
   }
 
   onSearch() {
 
-    // console.log(this.props.posters);
 
     let filteredPosters = []
-    const search = this.state.text
-    // this.state.filteredPosters = []
-
-    // console.log(this.props.posters);
-
+    let search = this.state.text
     const posters = this.props.posters
-    // console.log(posters[0]);
-
 
   if(posters[0].name !== undefined){
-    // console.log(search);
       for (let i = 0; i < posters.length; i++) {
 
         let stateAns = posters[i].state || ''
@@ -56,7 +64,6 @@ class Footer extends Component {
             })
           }
       }
-    // console.log(filteredPosters)
     return filteredPosters
     }
   }
@@ -64,16 +71,14 @@ class Footer extends Component {
   setInfoVisible(visible) {
     this.setState({infoVisible: visible});
   }
+
   setSearchVisible(visible) {
     this.setState({searchVisible: visible});
   }
 
   renderFooter(){
-    const { posters, index, hider } = this.props
+    const { posters, index } = this.props
     let park = this.props.posters[this.props.index]
-
-    console.log('hider');
-    console.log(hider);
 
     if(posters[index] === undefined){
       return(
@@ -105,26 +110,10 @@ class Footer extends Component {
                     value={this.state.text}
                   />
 
-                  <TouchableHighlight
-                    onPress={() => {
-                      this.props.action(this.onSearch())
-                      this.setSearchVisible(false);
-                    }}
-                    >
-                    <View
-                      onPress={() => {
-                        this.setSearchVisible(false);
-                        this.props.action(this.onSearch())
-                      }}
-                      >
-                      <Text style={styles.hideStyle}>View Now</Text>
-                    </View>
-
-                  </TouchableHighlight>
                 </View>
                 <TouchableHighlight>
                   <SearchResults
-                    hider={this.props.hider}
+                    hider={this.hider}
                     action={this.props.action}
                     style={{flex: 1}}
                     search={this.state.text}

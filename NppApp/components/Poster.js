@@ -145,7 +145,6 @@ class Poster extends Component {
             >
             </Image>
             <Footer
-              hider={this.state.hidden}
               action={this.handler}
               posters={this.props.posters}
               index={this.state.index}
